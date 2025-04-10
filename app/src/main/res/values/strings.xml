@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">usb_signal</string>
+    <string name="accessibility_service_description">自动点击 USB 权限弹窗的确定按钮</string>
+</resources>
