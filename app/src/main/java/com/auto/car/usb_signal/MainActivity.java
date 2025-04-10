@@ -7,25 +7,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.auto.car.usb_signal.service.IOService;
 import com.auto.car.usb_signal.service.MyAccessibilityService;
-import com.auto.car.usb_signal.service.UsbMonitorService;
+import com.auto.car.usb_signal.service.UsbManagerActivity;
 
 
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // 启动后台服务
-        Intent serviceIntent = new Intent(this, UsbMonitorService.class);
-        startService(serviceIntent);
-
-        // 启动后台服务
+        setContentView(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
+        UsbManagerActivity usbManagerActivity = new UsbManagerActivity(this);
         Intent intent = new Intent(this, MyAccessibilityService.class);
         startService(intent);
-
-        // 启动后台服务
-        Intent ioService = new Intent(this, IOService.class);
-        startService(ioService);
         finish();
     }
 

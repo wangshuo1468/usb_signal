@@ -12,15 +12,14 @@
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         tools:targetApi="31">  <!-- 添加 tools:targetApi -->
 
-        <!-- 声明无障碍权限 -->
-        <service
-            android:name="com.auto.car.usb_signal.service.UsbMonitorService"
-            android:exported="true"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </service>
+        </activity>
 
         <service
             android:name="com.auto.car.usb_signal.service.MyAccessibilityService"
