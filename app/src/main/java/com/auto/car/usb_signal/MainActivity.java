@@ -5,13 +5,11 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.auto.car.usb_signal.service.IOService;
 import com.auto.car.usb_signal.service.MyAccessibilityService;
 import com.auto.car.usb_signal.service.RunAppService;
 import com.auto.car.usb_signal.service.UsbManagerActivity;
-import com.auto.car.usb_signal.service.UsbManagerActivity2;
 
-
+0
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
