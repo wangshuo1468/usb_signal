@@ -14,15 +14,16 @@ import com.auto.car.usb_signal.rockmong.UsbDevice;
 
 import java.util.HashMap;
 
-public class UsbManagerActivity {
+public class UsbManagerActivity2 {
 
     private Context context;
     private UsbManager usbManager;
-    private static final String ACTION_USB_PERMISSION = "com.rockmong.USB_PERMISSION";
-    private Intent ioService;
+    private static final String ACTION_USB_PERMISSION ="com.rockmong.USB_PERMISSION";
 
-    public UsbManagerActivity(Context context) {
+    public UsbManagerActivity2(Context context)
+    {
         this.context = context;
+
         //注册USB插拔检测服务
         IntentFilter filter = new IntentFilter();
         filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
@@ -30,25 +31,26 @@ public class UsbManagerActivity {
         filter.addAction(ACTION_USB_PERMISSION);
         filter.setPriority(Integer.MAX_VALUE); //设置级别
         UsbReceiver usbReceiver = new UsbReceiver();
-        context.registerReceiver(usbReceiver, filter);
-        ioService = new Intent(context, IOService.class);
+        context.registerReceiver(usbReceiver,filter);
 
         Scan();
     }
 
-    public int Scan() {
+    public int Scan()
+    {
         int ret = 0;
+
         UsbDevice.INSTANTCE.UsbDevice_Clear();
-        context.stopService(ioService);
-        context.startService(ioService);
+
         usbManager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
         HashMap<String, android.hardware.usb.UsbDevice> deviceList = usbManager.getDeviceList();
         for (android.hardware.usb.UsbDevice usbDevice : deviceList.values()) {
-            if (UsbDevice.INSTANTCE.UsbDevice_GetVid() == usbDevice.getVendorId() && UsbDevice.INSTANTCE.UsbDevice_GetPid() == usbDevice.getProductId()) {
-                if (!usbManager.hasPermission(usbDevice)) {
+            if(UsbDevice.INSTANTCE.UsbDevice_GetVid() == usbDevice.getVendorId() && UsbDevice.INSTANTCE.UsbDevice_GetPid() == usbDevice.getProductId()){
+                if(!usbManager.hasPermission(usbDevice)) {
                     PendingIntent mPermissionIntent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
                     usbManager.requestPermission(usbDevice, mPermissionIntent);
-                } else {
+                }
+                else {
                     UsbDeviceConnection usbDeviceConnection = usbManager.openDevice(usbDevice);
                     int fileDescriptor = usbDeviceConnection.getFileDescriptor();
 
@@ -59,7 +61,8 @@ public class UsbManagerActivity {
                 }
             }
         }
-        return ret;
+
+        return  ret;
     }
 
     //定义USB的插拔广播接收器
@@ -69,19 +72,19 @@ public class UsbManagerActivity {
             if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_DETACHED)) {
                 Toast.makeText(context, "Device Detached", Toast.LENGTH_SHORT).show();
                 Scan();
-            } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)) {
+            }else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)){
                 Toast.makeText(context, "Device Attached", Toast.LENGTH_SHORT).show();
                 android.hardware.usb.UsbDevice usbDevice = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
-                if (!usbManager.hasPermission(usbDevice)) {
+                if(!usbManager.hasPermission(usbDevice)){
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
                     usbManager.requestPermission(usbDevice, pendingIntent);
                 }
-            } else if (intent.getAction().equals(ACTION_USB_PERMISSION)) {
+            }else if(intent.getAction().equals(ACTION_USB_PERMISSION)){
                 //UsbDevice usbDevice = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
-                if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
+                if(intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED,false)){
                     System.out.println("Permission ok");
                     Scan();
-                } else {
+                }else{
                     System.out.println("No permission");
                 }
             }

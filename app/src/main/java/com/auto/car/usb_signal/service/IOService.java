@@ -16,14 +16,13 @@ public class IOService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        int[] SerialNumbers = new int[16];
-        UsbDevice.INSTANTCE.UsbDevice_Scan(SerialNumbers);
-        IO.INSTANTCE.IO_InitPin(SerialNumbers[0], 0, 0, 2);
-        IO.INSTANTCE.IO_InitPin(SerialNumbers[0], 1, 0, 2);
-        IO.INSTANTCE.IO_InitPin(SerialNumbers[0], 2, 0, 2);
-
         new Thread(() -> {
             while (true) {
+                int[] SerialNumbers = new int[16];
+                UsbDevice.INSTANTCE.UsbDevice_Scan(SerialNumbers);
+                IO.INSTANTCE.IO_InitPin(SerialNumbers[0], 0, 0, 2);
+                IO.INSTANTCE.IO_InitPin(SerialNumbers[0], 1, 0, 2);
+                IO.INSTANTCE.IO_InitPin(SerialNumbers[0], 2, 0, 2);
                 //      脚0
                 IntByReference pin0 = new IntByReference();
                 IO.INSTANTCE.IO_ReadPin(SerialNumbers[0], 0, pin0);
@@ -36,36 +35,6 @@ public class IOService extends Service {
                 IntByReference pin2 = new IntByReference();
                 IO.INSTANTCE.IO_ReadPin(SerialNumbers[0], 2, pin2);
                 PinValue.pin2 = pin2.getValue();
-
-                if (PinValue.pin0 == 1) {
-                    Intent intent = new Intent();
-                    intent.setClassName("com.shenyaocn.android.usbcamera", "com.shenyaocn.android.usbcamera.MainActivity");
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    try {
-                        getApplicationContext().startActivity(intent);
-                    } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), "目标应用未安装或无法启动", Toast.LENGTH_LONG).show();
-                    }
-                } else if (PinValue.pin1 == 1) {
-                    Intent intent = new Intent();
-                    intent.setClassName("com.shenyaocn.android.usbcamera", "com.shenyaocn.android.usbcamera.MainActivity");
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    try {
-                        getApplicationContext().startActivity(intent);
-                    } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), "目标应用未安装或无法启动", Toast.LENGTH_LONG).show();
-                    }
-                } else if (PinValue.pin2 == 1) {
-                    Intent intent = new Intent();
-                    intent.setClassName("com.shenyaocn.android.usbcamera", "com.shenyaocn.android.usbcamera.MainActivity");
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    try {
-                        getApplicationContext().startActivity(intent);
-                    } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), "目标应用未安装或无法启动", Toast.LENGTH_LONG).show();
-                    }
-                }
-
                 try {
                     Thread.sleep(100); // 100ms 检测一次
                 } catch (InterruptedException ignored) {

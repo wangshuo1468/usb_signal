@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.auto.car.usb_signal.service.IOService;
 import com.auto.car.usb_signal.service.MyAccessibilityService;
+import com.auto.car.usb_signal.service.RunAppService;
 import com.auto.car.usb_signal.service.UsbManagerActivity;
+import com.auto.car.usb_signal.service.UsbManagerActivity2;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         UsbManagerActivity usbManagerActivity = new UsbManagerActivity(this);
         Intent intent = new Intent(this, MyAccessibilityService.class);
         startService(intent);
+        RunAppService runAppService = new RunAppService(this);
         finish();
     }
 
