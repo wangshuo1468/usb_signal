@@ -8,7 +8,7 @@ import com.auto.car.usb_signal.util.PinValue;
 
 public class RunAppService implements Runnable {
 
-    private static final long TRIGGER_TIMEOUT_MS = 500;
+    private static final long TRIGGER_TIMEOUT_MS = 1000;
 
     private long lastAnyTriggerTime = 0;
 

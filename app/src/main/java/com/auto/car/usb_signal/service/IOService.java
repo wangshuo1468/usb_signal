@@ -3,6 +3,7 @@ package com.auto.car.usb_signal.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.auto.car.usb_signal.rockmong.IO;
@@ -11,18 +12,18 @@ import com.auto.car.usb_signal.util.PinValue;
 import com.sun.jna.ptr.IntByReference;
 
 public class IOService extends Service {
+    public static int runnerNum = 0;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
+        int[] SerialNumbers = new int[16];
+        UsbDevice.INSTANTCE.UsbDevice_Scan(SerialNumbers);
+        IO.INSTANTCE.IO_InitPin(SerialNumbers[0], 0, 0, 2);
+        IO.INSTANTCE.IO_InitPin(SerialNumbers[0], 1, 0, 2);
+        IO.INSTANTCE.IO_InitPin(SerialNumbers[0], 2, 0, 2);
         new Thread(() -> {
             while (true) {
-                int[] SerialNumbers = new int[16];
-                UsbDevice.INSTANTCE.UsbDevice_Scan(SerialNumbers);
-                IO.INSTANTCE.IO_InitPin(SerialNumbers[0], 0, 0, 2);
-                IO.INSTANTCE.IO_InitPin(SerialNumbers[0], 1, 0, 2);
-                IO.INSTANTCE.IO_InitPin(SerialNumbers[0], 2, 0, 2);
                 //      脚0
                 IntByReference pin0 = new IntByReference();
                 IO.INSTANTCE.IO_ReadPin(SerialNumbers[0], 0, pin0);

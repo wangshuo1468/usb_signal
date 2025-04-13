@@ -9,7 +9,7 @@ import com.auto.car.usb_signal.service.MyAccessibilityService;
 import com.auto.car.usb_signal.service.RunAppService;
 import com.auto.car.usb_signal.service.UsbManagerActivity;
 
-0
+
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
