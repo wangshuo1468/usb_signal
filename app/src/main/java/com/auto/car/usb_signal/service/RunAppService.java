@@ -8,7 +8,7 @@ import com.auto.car.usb_signal.util.PinValue;
 
 public class RunAppService implements Runnable {
 
-    private static final long TRIGGER_TIMEOUT_MS = 1000;
+    private static final long TRIGGER_TIMEOUT_MS = 5000;
 
     private long lastAnyTriggerTime = 0;
 
@@ -92,6 +92,8 @@ public class RunAppService implements Runnable {
         } catch (Exception ignored) {
         }
     }
+
+
 
     private void launchGaoDeMapApp() {
         Intent intent = new Intent();

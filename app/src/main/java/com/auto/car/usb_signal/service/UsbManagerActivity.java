@@ -36,14 +36,7 @@ public class UsbManagerActivity {
         ioService = new Intent(context, IOService.class);
         usbManager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
         HashMap<String, android.hardware.usb.UsbDevice> deviceList = usbManager.getDeviceList();
-        for (android.hardware.usb.UsbDevice usbDevice : deviceList.values()) {
-            if (UsbDevice.INSTANTCE.UsbDevice_GetVid() == usbDevice.getVendorId() && UsbDevice.INSTANTCE.UsbDevice_GetPid() == usbDevice.getProductId()) {
-                Scan(true);
-            } else {
-                Scan(false);
-            }
-        }
-        Scan(true);
+        Scan();
     }
 
     /**
@@ -55,19 +48,15 @@ public class UsbManagerActivity {
      *
      * @return int 返回操作结果，0表示成功，非0表示失败
      */
-    public int Scan(Boolean falg) {
+    public int Scan() {
         // 初始化返回值
         int ret = 0;
 
         // 清除当前USB设备的配置
         UsbDevice.INSTANTCE.UsbDevice_Clear();
-
+        context.stopService(ioService);
+        context.startService(ioService);
         // 停止并重新启动IO服务，以准备扫描新的USB设备
-        if (falg) {
-            context.startService(ioService);
-        } else {
-            context.stopService(ioService);
-        }
         usbManager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
         // 获取当前系统中的USB设备列表
         HashMap<String, android.hardware.usb.UsbDevice> deviceList = usbManager.getDeviceList();
@@ -110,9 +99,7 @@ public class UsbManagerActivity {
             if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_DETACHED)) {
                 // 当USB设备分离时，显示提示信息并执行扫描操作
                 Toast.makeText(context, "Device Detached", Toast.LENGTH_SHORT).show();
-                Scan(false);
-
-
+                Scan();
             } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)) {
                 // 当USB设备附加时，显示提示信息并获取设备信息
                 Toast.makeText(context, "Device Attached", Toast.LENGTH_SHORT).show();
@@ -129,7 +116,7 @@ public class UsbManagerActivity {
                 if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
                     // 如果权限被授予，输出信息并执行扫描操作
                     System.out.println("Permission ok");
-                    Scan(true);
+                    Scan();
                 } else {
                     // 如果权限未被授予，输出信息
                     System.out.println("No permission");
