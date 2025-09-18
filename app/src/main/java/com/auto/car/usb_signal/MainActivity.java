@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.auto.car.usb_signal.service.MyAccessibilityService;
 import com.auto.car.usb_signal.service.RunAppService;
+import com.auto.car.usb_signal.service.TestPinService;
 import com.auto.car.usb_signal.service.UsbManagerActivity;
 
 
@@ -15,12 +16,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
-        UsbManagerActivity usbManagerActivity = new UsbManagerActivity(this);
-        Intent intent = new Intent(this, MyAccessibilityService.class);
+        new UsbManagerActivity(this);
+        Intent intent = new Intent(this, (Class<?>) MyAccessibilityService.class);
         startService(intent);
-        RunAppService runAppService = new RunAppService(this);
+        new RunAppService(this);
+//        TestPinService.startSimulatePin();
         finish();
     }
-
-
 }
